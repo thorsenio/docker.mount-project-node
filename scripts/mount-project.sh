@@ -34,19 +34,23 @@ PROJECT_ID=${PROJECT_ID:='node10-app'}
 # Constants
 IMAGE_BASE_NAME='skypilot/node10-dev'
 
-# Default command
-CMD="${@:-${MPNODE_DEFAULT_CMD}}"
+# Process command-line arguments, if any
+if [[ -n $@ ]]; then
+  CMD="$@"
 
-# Shortcut arguments
-if [[ ${CMD} == 'build' ]]; then
-  CMD='npm run build'
+  # Shortcut arguments
+  if [[ ${CMD} == 'build' ]]; then
+    CMD='npm run build'
+  fi
+
+  if [[ ${CMD} == 'serve' ]]; then
+    CMD="http-server -p ${WEB_SERVER_PORT} dist"
+  fi
+else
+  CMD=${MPNODE_DEFAULT_CMD}
 fi
 
-if [[ ${CMD} == 'serve' ]]; then
-  CMD="http-server -p ${WEB_SERVER_PORT} dist"
-fi
 
-# TODO: Make it easier to switch between production and nonproduction builds.
 # The code below respects `NODE_ENV`, defaulting to `development` if NODE_ENV isn't set
 if [[ ${CMD} == 'test' ]]; then
   CMD='npm run test'
@@ -56,7 +60,7 @@ else
 fi
 
 
-echo "Running container with command: ${CMD}"
+echo "Running container in '${NODE_ENV}' environment with command: ${CMD}"
 
 docker container run \
   --interactive \
