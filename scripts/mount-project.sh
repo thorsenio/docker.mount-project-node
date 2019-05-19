@@ -27,6 +27,17 @@ cd ..
 
 
 # -- Helper functions
+# Given the name of a Docker network, return 0 if the network exists, else 1
+dockerNetworkExists () {
+  local DOCKER_NETWORK=$1
+
+  if [[ -n $(docker network ls --quiet --filter name=${DOCKER_NETWORK}) ]]; then
+    return 0
+  else
+    return 1
+  fi
+}
+
 # Generate a random ID to append to the container name
 randomString () {
   local LENGTH=${1:4}
@@ -35,12 +46,14 @@ randomString () {
 
 
 # Defaults. Override by setting these values in environment variables or `.env`
+DOCKER_NETWORK=${DOCKER_NETWORK:='default'}
 MPNODE_DEFAULT_CMD=${MPNODE_DEFAULT_CMD:='bash'}
-WEB_SERVER_PORT=${WEB_SERVER_PORT:='8080'}
 PROJECT_ID=${PROJECT_ID:='node10-app'}
+WEB_SERVER_PORT=${WEB_SERVER_PORT:='8080'}
 
 # Constants
 IMAGE_BASE_NAME='skypilot/node10-dev'
+
 
 # Process command-line arguments, if any
 if [[ -n $@ ]]; then
@@ -67,8 +80,18 @@ else
   NODE_ENV=${NODE_ENV:='development'}
 fi
 
+if [[ ${DOCKER_NETWORK} != 'default' ]]; then
+  if ! dockerNetworkExists ${DOCKER_NETWORK}; then
+    echo "WARNING: No Docker network with the name '${DOCKER_NETWORK}' was found. The 'default' network will be used" 1>&2
+    DOCKER_NETWORK='default'
+  fi
+fi
 
-echo "Running container in '${NODE_ENV}' environment with command: ${CMD}"
+echo -e "Mounting the project into a container:"
+echo "|  command:     ${CMD}"
+echo "|  environment: ${NODE_ENV}"
+echo "|  network:     ${DOCKER_NETWORK}"
+
 
 docker container run \
   --interactive \
@@ -78,6 +101,7 @@ docker container run \
   --expose ${WEB_SERVER_PORT} \
   --mount type=bind,source=${PWD},target=/var/project \
   --name ${PROJECT_ID}-$(randomString 4) \
+  --network ${DOCKER_NETWORK} \
   --publish ${WEB_SERVER_PORT}:${WEB_SERVER_PORT} \
   --workdir /var/project \
   ${IMAGE_BASE_NAME} \
