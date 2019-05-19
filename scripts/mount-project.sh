@@ -17,13 +17,20 @@
 # Change to the directory of this script so that relative paths resolve correctly
 cd $(dirname "$0")
 
-# Read environment variables from file
-# TODO: REFACTOR: Maybe add a flexible env var handler
-if [[ -f ../.env ]]; then
-  source ../.env
-fi
+# Read this module's environment variables from file
+source ../mount-project-node/variables.sh
+MNP_VERSION=${VERSION}
 
-cd ..
+
+# Change to the project root from `node_module/.bin/`
+cd ../..
+
+
+# Read project's environment variables from file
+# TODO: REFACTOR: Maybe add a flexible env var handler
+if [[ -f .env ]]; then
+  source .env
+fi
 
 
 # -- Helper functions
