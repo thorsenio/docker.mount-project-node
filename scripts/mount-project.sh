@@ -26,6 +26,14 @@ fi
 cd ..
 
 
+# -- Helper functions
+# Generate a random ID to append to the container name
+randomString () {
+  local LENGTH=${1:4}
+  echo $(perl -pe 'binmode(STDIN, ":bytes"); tr/a-zA-Z0-9//dc;' < /dev/urandom | head -c 4)
+}
+
+
 # Defaults. Override by setting these values in environment variables or `.env`
 MPNODE_DEFAULT_CMD=${MPNODE_DEFAULT_CMD:='bash'}
 WEB_SERVER_PORT=${WEB_SERVER_PORT:='8080'}
@@ -69,6 +77,7 @@ docker container run \
   --env NODE_ENV=${NODE_ENV} \
   --expose ${WEB_SERVER_PORT} \
   --mount type=bind,source=${PWD},target=/var/project \
+  --name ${PROJECT_ID}-$(randomString 4) \
   --publish ${WEB_SERVER_PORT}:${WEB_SERVER_PORT} \
   --workdir /var/project \
   ${IMAGE_BASE_NAME} \
