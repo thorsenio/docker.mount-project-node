@@ -14,9 +14,22 @@
 #   scripts/mount-project.sh serve
 #   scripts/mount-project.sh test
 
-# Defaults
-DEFAULT_CMD='bash'
-PORT='8080'
+# Change to the directory of this script so that relative paths resolve correctly
+cd $(dirname "$0")
+
+# Read environment variables from file
+# TODO: REFACTOR: Maybe add a flexible env var handler
+if [[ -f ../.env ]]; then
+  source ../.env
+fi
+
+cd ..
+
+
+# Defaults. Override by setting these values in environment variables or `.env`
+DEFAULT_CMD=${DEFAULT_CMD:='bash'}
+PORT=${PORT:='8080'}
+PROJECT_ID=${PROJECT_ID:='node10-app'}
 
 # Constants
 IMAGE_BASE_NAME='skypilot/node10-dev'
@@ -42,18 +55,14 @@ else
   ENV=${NODE_ENV:-'development'}
 fi
 
-echo "Running container with command: ${CMD}"
 
-# Change to the directory of this script so that relative paths resolve correctly
-cd $(dirname "$0")
-source ../.env
-cd ..
+echo "Running container with command: ${CMD}"
 
 docker container run \
   --interactive \
   --rm \
   --tty \
-  --env NODE_ENV=production \
+  --env NODE_ENV=${ENV} \
   --expose ${PORT} \
   --mount type=bind,source=${PWD},target=/var/project \
   --publish ${PORT}:${PORT} \
