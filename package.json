@@ -1,0 +1,28 @@
+{
+  "name": "mount-project-node",
+  "version": "1.2.0",
+  "description": "Docker container for development in Node environment",
+  "bin": "scripts/mount-project.sh",
+  "scripts": {
+    "test": "echo \"No tests\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thorsenio/docker.mount-project-node.git"
+  },
+  "keywords": [
+    "container",
+    "development",
+    "docker",
+    "image",
+    "project",
+    "node"
+  ],
+  "author": "William Thorsen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thorsenio/docker.mount-project-node/issues"
+  },
+  "homepage": "https://github.com/thorsenio/docker.mount-project-node#readme",
+  "dependencies": {}
+}

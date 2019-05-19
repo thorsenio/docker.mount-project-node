@@ -52,7 +52,7 @@ PROJECT_ID=${PROJECT_ID:='node10-app'}
 WEB_SERVER_PORT=${WEB_SERVER_PORT:='8080'}
 
 # Constants
-IMAGE_BASE_NAME='skypilot/node10-dev'
+IMAGE_BASE_NAME='skypilot/mount-project-node'
 
 
 # Process command-line arguments, if any
