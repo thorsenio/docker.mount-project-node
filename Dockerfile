@@ -24,7 +24,10 @@ RUN touch /root/.bashrc && \
   echo "export PS1=\"\u@${PACKAGE_NAME}-${VERSION_LABEL} [\w] \$ \"" >> /root/.bashrc
 
 RUN npm install --global npm@6.8.0
-RUN npm install --global http-server@0.11.1
+RUN npm install --global \
+  http-server \
+  npm-check \
+  npm-check-updates
 
 WORKDIR ${PROJECT_DIR}
 
