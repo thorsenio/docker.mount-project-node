@@ -12,6 +12,5 @@ docker build \
   --build-arg VERSION=${VERSION} \
   --build-arg VERSION_LABEL=${VERSION_LABEL} \
   --file Dockerfile \
-  --tag ${IMAGE_BASE_NAME} \
   --tag ${IMAGE_BASE_NAME}:${VERSION} \
   .

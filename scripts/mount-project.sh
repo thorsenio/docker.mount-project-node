@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# Version 1.0.0
-
 # This script mounts the project into a container that provides Node 10.14, Bash, and Git.
 # By default the container starts with Bash. Pass a different command to the script
 # to run that command instead in the container.
@@ -111,5 +109,5 @@ docker container run \
   --network ${DOCKER_NETWORK} \
   --publish ${WEB_SERVER_PORT}:${WEB_SERVER_PORT} \
   --workdir /var/project \
-  ${IMAGE_BASE_NAME} \
+  ${IMAGE_BASE_NAME}:${MNP_VERSION} \
   ${CMD}
