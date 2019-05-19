@@ -27,15 +27,15 @@ cd ..
 
 
 # Defaults. Override by setting these values in environment variables or `.env`
-DEFAULT_CMD=${DEFAULT_CMD:='bash'}
-PORT=${PORT:='8080'}
+MPNODE_DEFAULT_CMD=${MPNODE_DEFAULT_CMD:='bash'}
+WEB_SERVER_PORT=${WEB_SERVER_PORT:='8080'}
 PROJECT_ID=${PROJECT_ID:='node10-app'}
 
 # Constants
 IMAGE_BASE_NAME='skypilot/node10-dev'
 
 # Default command
-CMD="${@:-${DEFAULT_CMD}}"
+CMD="${@:-${MPNODE_DEFAULT_CMD}}"
 
 # Shortcut arguments
 if [[ ${CMD} == 'build' ]]; then
@@ -43,16 +43,16 @@ if [[ ${CMD} == 'build' ]]; then
 fi
 
 if [[ ${CMD} == 'serve' ]]; then
-  CMD="http-server -p ${PORT} dist"
+  CMD="http-server -p ${WEB_SERVER_PORT} dist"
 fi
 
 # TODO: Make it easier to switch between production and nonproduction builds.
 # The code below respects `NODE_ENV`, defaulting to `development` if NODE_ENV isn't set
 if [[ ${CMD} == 'test' ]]; then
   CMD='npm run test'
-  ENV='development'
+  NODE_ENV='development'
 else
-  ENV=${NODE_ENV:-'development'}
+  NODE_ENV=${NODE_ENV:='development'}
 fi
 
 
@@ -62,10 +62,10 @@ docker container run \
   --interactive \
   --rm \
   --tty \
-  --env NODE_ENV=${ENV} \
-  --expose ${PORT} \
+  --env NODE_ENV=${NODE_ENV} \
+  --expose ${WEB_SERVER_PORT} \
   --mount type=bind,source=${PWD},target=/var/project \
-  --publish ${PORT}:${PORT} \
+  --publish ${WEB_SERVER_PORT}:${WEB_SERVER_PORT} \
   --workdir /var/project \
   ${IMAGE_BASE_NAME} \
   ${CMD}
