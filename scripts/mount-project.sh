@@ -18,8 +18,8 @@ cd $(dirname "$0")
 # Read this module's environment variables from file
 source ../mount-project-node/variables.sh
 MNP_VERSION=${VERSION}
-IMAGE_BASE_NAME="${ACCOUNT_NAME}/${PACKAGE_NAME}"
 
+MPN_IMAGE_BASE_NAME="${IMAGE_BASE_NAME}"
 
 # Change to the project root from `node_modules/.bin/`
 cd ../..
