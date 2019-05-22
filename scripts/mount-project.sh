@@ -18,9 +18,10 @@ cd $(dirname "$0")
 # Read this module's environment variables from file
 source ../mount-project-node/variables.sh
 MNP_VERSION=${VERSION}
+IMAGE_BASE_NAME="${ACCOUNT_NAME}/${PACKAGE_NAME}"
 
 
-# Change to the project root from `node_module/.bin/`
+# Change to the project root from `node_modules/.bin/`
 cd ../..
 
 
@@ -55,9 +56,6 @@ DOCKER_NETWORK=${DOCKER_NETWORK:='default'}
 MPNODE_DEFAULT_CMD=${MPNODE_DEFAULT_CMD:='bash'}
 PROJECT_ID=${PROJECT_ID:='node10-app'}
 WEB_SERVER_PORT=${WEB_SERVER_PORT:='8080'}
-
-# Constants
-IMAGE_BASE_NAME='skypilot/mount-project-node'
 
 
 # Process command-line arguments, if any
