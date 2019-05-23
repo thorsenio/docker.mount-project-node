@@ -17,8 +17,10 @@ cd $(dirname "$0")
 
 # Read this module's environment variables from file
 source ../mount-project-node/variables.sh
-MNP_VERSION=${VERSION}
-IMAGE_BASE_NAME="${ACCOUNT_NAME}/${PACKAGE_NAME}"
+
+# Store values in unique variables, to avoid potential collisions
+MPN_VERSION=${VERSION}
+MPN_IMAGE_BASE_NAME="${IMAGE_BASE_NAME}"
 
 
 # Change to the project root from `node_modules/.bin/`
@@ -53,7 +55,7 @@ randomString () {
 
 # Defaults. Override by setting these values in environment variables or `.env`
 DOCKER_NETWORK=${DOCKER_NETWORK:='default'}
-MPNODE_DEFAULT_CMD=${MPNODE_DEFAULT_CMD:='bash'}
+MPN_DEFAULT_CMD=${MPN_DEFAULT_CMD:='bash'}
 PROJECT_ID=${PROJECT_ID:='node10-app'}
 WEB_SERVER_PORT=${WEB_SERVER_PORT:='8080'}
 
@@ -71,7 +73,7 @@ if [[ -n $@ ]]; then
     CMD="http-server -p ${WEB_SERVER_PORT} dist"
   fi
 else
-  CMD=${MPNODE_DEFAULT_CMD}
+  CMD=${MPN_DEFAULT_CMD}
 fi
 
 
@@ -107,5 +109,5 @@ docker container run \
   --network ${DOCKER_NETWORK} \
   --publish ${WEB_SERVER_PORT}:${WEB_SERVER_PORT} \
   --workdir /var/project \
-  ${IMAGE_BASE_NAME}:${MNP_VERSION} \
+  ${MPN_IMAGE_BASE_NAME}:${MPN_VERSION} \
   ${CMD}
