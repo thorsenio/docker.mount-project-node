@@ -1,6 +1,6 @@
 {
   "name": "mount-project-node",
-  "version": "1.3.3",
+  "version": "2.0.0",
   "description": "Docker container for development in Node environment",
   "bin": "scripts/mount-project.sh",
   "scripts": {

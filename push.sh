@@ -5,4 +5,4 @@ cd $(dirname "$0")
 
 source variables.sh
 
-docker push ${IMAGE_BASE_NAME}:${VERSION}
+docker push ${PACKAGE_IMAGE_BASE_NAME}:${PACKAGE_VERSION}

@@ -14,14 +14,14 @@ RUN apk update && \
     vim
 
 ARG PACKAGE_NAME
+ARG PACKAGE_VERSION
+ARG PACKAGE_VERSION_LABEL
 ARG PROJECT_DIR='/var/project'
-ARG VERSION
-ARG VERSION_LABEL
 
 ENV NODE_ENV=production
 
 RUN touch /root/.bashrc && \
-  echo "export PS1=\"\u@${PACKAGE_NAME}-${VERSION_LABEL} [\w] \$ \"" >> /root/.bashrc
+  echo "export PS1=\"\u@${PACKAGE_NAME}-${PACKAGE_VERSION_LABEL} [\w] \$ \"" >> /root/.bashrc
 
 RUN npm install --global npm@6.8.0
 RUN npm install --global \
