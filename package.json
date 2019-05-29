@@ -2,7 +2,7 @@
   "name": "mount-project-node",
   "version": "2.0.0",
   "description": "Docker container for development in Node environment",
-  "bin": "scripts/mount-project.sh",
+  "bin": "mount-project.sh",
   "scripts": {
     "test": "echo \"No tests\" && exit 1"
   },
